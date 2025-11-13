@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.code.free.requests.UserRegisterRequest;
 import com.code.free.responses.UserRegisterResponse;
-import com.code.free.services.UserService;
+import com.code.free.services.UserService.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

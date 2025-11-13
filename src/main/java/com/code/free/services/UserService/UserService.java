@@ -1,4 +1,4 @@
-package com.code.free.services;
+package com.code.free.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
