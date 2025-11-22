@@ -1,5 +1,6 @@
 package com.code.free.services.AuthService;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class AuthService {
 
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String token = authUtil.generateAccessToken(user);
-        
+
         return new LoginResponseDto(token, user.getId());
     }
 
@@ -41,13 +42,18 @@ public class AuthService {
         if (user != null) {
             throw new IllegalArgumentException("Username already exists");
         }
-        user = userRepo.save(UserEntity.builder().username(request.getUsername())
+
+        UserEntity newUser = UserEntity.builder().username(request.getUsername())
                 .password(config.passwordEncoder().encode(request.getPassword())).email(request.getEmail())
-                .build());
+                .build();
 
-        
+        if (request.getRole() != null) {
+            newUser.setRole(request.getRole());
+        }
 
-        return new UserRegisterResponseDto(user.getId(),user.getUsername());
+        user = userRepo.save(newUser);
+
+        return new UserRegisterResponseDto(user.getId(), user.getUsername());
     }
 
 }
