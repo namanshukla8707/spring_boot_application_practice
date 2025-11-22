@@ -1,6 +1,6 @@
 package com.code.free.services.AuthService;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,9 +10,12 @@ import com.code.free.configuration.Config;
 import com.code.free.entities.user.UserEntity;
 import com.code.free.repositories.user.UserRepo;
 import com.code.free.requests.LoginRequestDto;
+import com.code.free.responses.CustomResponse;
 import com.code.free.responses.LoginResponseDto;
 import com.code.free.responses.UserRegisterResponseDto;
 import com.code.free.security.AuthUtil;
+import com.code.free.utilities.ApiResult;
+import com.code.free.utilities.exceptions.DuplicateEmailException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +28,7 @@ public class AuthService {
     private final UserRepo userRepo;
     private final Config config;
 
-    public LoginResponseDto login(LoginRequestDto request) {
+    public ApiResult<LoginResponseDto> login(LoginRequestDto request) {
         String username = request.getUsername();
         String password = request.getPassword();
         Authentication authentication = authenticationManager
@@ -34,13 +37,13 @@ public class AuthService {
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String token = authUtil.generateAccessToken(user);
 
-        return new LoginResponseDto(token, user.getId());
+        return CustomResponse.success(new LoginResponseDto(token, user.getId()), "Login Successful", HttpStatus.OK);
     }
 
-    public UserRegisterResponseDto registerUser(LoginRequestDto request) {
-        UserEntity user = userRepo.findByUsername(request.getUsername()).orElse(null);
+    public ApiResult<UserRegisterResponseDto> registerUser(LoginRequestDto request) {
+        UserEntity user = userRepo.findByEmail(request.getEmail()).orElse(null);
         if (user != null) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new DuplicateEmailException("Email is already in use");
         }
 
         UserEntity newUser = UserEntity.builder().username(request.getUsername())
@@ -53,7 +56,8 @@ public class AuthService {
 
         user = userRepo.save(newUser);
 
-        return new UserRegisterResponseDto(user.getId(), user.getUsername());
+        return CustomResponse.success(new UserRegisterResponseDto(user.getId(), user.getUsername()),
+                "User registered successfully", HttpStatus.CREATED);
     }
 
 }
