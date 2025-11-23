@@ -8,11 +8,19 @@ import lombok.Data;
 @Data
 @Component
 public class Constants {
-    
+
     @Value("${jwt.secret}")
     private String jwtSecretKey;
 
     @Value("${jwt.expiration.ms}")
     private Integer jwtExpirationMs;
+
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
+
+    private String usernameSuggestionConstantKey = "usernameSuggestionPrompt";
+
+    @Value("${gemini.ai.model.name}")
+    private String geminiAIModelName;
 
 }

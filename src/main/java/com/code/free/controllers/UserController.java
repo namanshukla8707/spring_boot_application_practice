@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/validate-name")
-    public ApiResult<ValidUsernameResponseDto> validateUsername(@RequestParam("username") String username){
+    public ApiResult<ValidUsernameResponseDto> validateUsername(@RequestParam("username") String username) throws Exception {
 
        return userService.validateUsername(username);
     }
