@@ -20,9 +20,9 @@ public class ApiResponse<T> {
         this.timestamp = LocalDateTime.now();
     }
 
-    public ApiResponse(Boolean success, HttpStatus status, T data, String message) {
+    public ApiResponse(HttpStatus status, T data, String message) {
         this();
-        this.success = success;
+        this.success = true;
         this.status = status;
         this.statusCode = status.value();
         this.message = message;
@@ -30,9 +30,9 @@ public class ApiResponse<T> {
         this.error = null;
     }
 
-    public ApiResponse(Boolean success, HttpStatus status, T data, String message, String error) {
+    public ApiResponse(HttpStatus status, T data, String message, String error) {
         this();
-        this.success = success;
+        this.success = false;
         this.status = status;
         this.statusCode = status.value();
         this.message = message;

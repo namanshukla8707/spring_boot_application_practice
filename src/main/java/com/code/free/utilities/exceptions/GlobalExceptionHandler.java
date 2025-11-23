@@ -1,10 +1,15 @@
 package com.code.free.utilities.exceptions;
 
 import io.jsonwebtoken.JwtException;
+import jakarta.persistence.PersistenceException;
+import jakarta.validation.ConstraintViolationException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,7 +36,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public <T> ApiResult<T> handleAccessDeniedException(AccessDeniedException exception) {
-        return CustomResponse.failure("Access denied: Insufficient permissions", "ACCESS_DENIED", HttpStatus.FORBIDDEN);
+        return CustomResponse.failure("Access denied: Insufficient permissions"+ exception.getMessage(), "ACCESS_DENIED", HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public <T> ApiResult<T> handleDataIntegrityViolationException(DataIntegrityViolationException exception){
+        return CustomResponse.failure("Data integrity violation: " + exception.getMessage(), "DATA_INTEGRITY_VIOLATION", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public <T> ApiResult<T> handleAttributesValidationException(ConstraintViolationException exception) {
+        return CustomResponse.failure("Validation failed: "+ exception.getMessage(), "ATTRIBUTE_VALIDATION_FAILED", HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    public <T> ApiResult<T> handleTransaction(TransactionSystemException exception) {
+        return CustomResponse.failure("Transaction failed: "+exception.getMessage(), "TRANSACTION_FAILED", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({ JpaSystemException.class, PersistenceException.class })
+    public <T> ApiResult<T> handleJpaErrors(Exception ex) {
+        return CustomResponse.failure("Database error: " + ex.getMessage(), "DATABASE_ERROR", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     @ExceptionHandler(Exception.class)
