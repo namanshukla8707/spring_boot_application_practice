@@ -19,6 +19,7 @@ public class AdminService {
 
     public ApiResult<List<UserView>> getUsers() {
         List<UserView> users = userViewRepo.findAll();
-        return CustomResponse.success(users, "Users fetched successfully", HttpStatus.OK);
+        String message = users.isEmpty() ? "No users found" : "Users fetched successfully";
+        return CustomResponse.success(users, message, HttpStatus.OK);
     }
 }
