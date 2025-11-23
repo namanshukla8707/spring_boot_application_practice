@@ -1,5 +1,6 @@
 package com.code.free.services.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,7 @@ import com.code.free.repositories.user.UserViewRepo;
 import com.code.free.responses.CustomResponse;
 import com.code.free.responses.ValidUsernameResponseDto;
 import com.code.free.utilities.ApiResult;
-import com.code.free.utilities.OpenAIUtils;
-
+import com.code.free.utilities.GeminiUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepo userRepo;
     private final UserViewRepo userViewRepo;
-    private final OpenAIUtils openAIUtils;
+    private final GeminiUtils geminiUtils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,22 +33,19 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsername(username).orElseThrow();
     }
 
-    public ApiResult<ValidUsernameResponseDto> validateUsername(String username) {
+    public ApiResult<ValidUsernameResponseDto> validateUsername(String username) throws IOException{
         UserView user = userViewRepo.findByUsername(username).orElse(null);
         ValidUsernameResponseDto response = new ValidUsernameResponseDto();
         String message = "";
         if (user != null) {
             response.setIsExist(true);
-            List<String> suggestions = List.of(username + "123", username + "_user", "the_" + username);
+            List<String> suggestions = geminiUtils.usernameSuggestionByGemini(username);
             response.setSuggestions(suggestions);
-            openAIUtils.aiUse();
-            
             message = "Username is already taken. Here are some suggestions.";
-        }
-        else {
+        } else {
             response.setIsExist(false);
             message = "Username is available.";
         }
-        return CustomResponse.success(response,message,HttpStatus.OK); 
+        return CustomResponse.success(response, message, HttpStatus.OK);
     }
 }
