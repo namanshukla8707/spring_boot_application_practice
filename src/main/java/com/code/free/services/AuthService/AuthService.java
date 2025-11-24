@@ -10,11 +10,11 @@ import com.code.free.configuration.Config;
 import com.code.free.entities.user.UserEntity;
 import com.code.free.exceptions.DuplicateEmailException;
 import com.code.free.repositories.user.UserRepo;
-import com.code.free.requests.LoginRequestDto;
-import com.code.free.requests.SignUpRequestDto;
+import com.code.free.requests.AuthRequests.LoginRequestDto;
+import com.code.free.requests.AuthRequests.UserRegisterRequestDto;
 import com.code.free.responses.CustomResponse;
-import com.code.free.responses.LoginResponseDto;
-import com.code.free.responses.UserRegisterResponseDto;
+import com.code.free.responses.AuthResponses.LoginResponseDto;
+import com.code.free.responses.AuthResponses.UserRegisterResponseDto;
 import com.code.free.security.AuthUtil;
 import com.code.free.utilities.ApiResult;
 
@@ -38,10 +38,10 @@ public class AuthService {
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String token = authUtil.generateAccessToken(user);
 
-        return CustomResponse.success(new LoginResponseDto(token, user.getId()), "Login Successful", HttpStatus.OK);
+        return CustomResponse.success(new LoginResponseDto(token, user.getEmail(),user.getUsername(),user.getRole()), "Login Successful", HttpStatus.OK);
     }
 
-    public ApiResult<UserRegisterResponseDto> registerUser(SignUpRequestDto request) {
+    public ApiResult<UserRegisterResponseDto> registerUser(UserRegisterRequestDto request) {
         UserEntity user = userRepo.findByEmail(request.getEmail()).orElse(null);
         if (user != null) {
             throw new DuplicateEmailException("Email is already in use");

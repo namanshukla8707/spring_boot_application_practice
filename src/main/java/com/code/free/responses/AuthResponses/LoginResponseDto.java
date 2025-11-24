@@ -1,4 +1,4 @@
-package com.code.free.responses;
+package com.code.free.responses.AuthResponses;
 
 import com.code.free.utilities.globalEnums.RoleType;
 
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegisterResponseDto {
-    
-    private String username;
+public class LoginResponseDto {
+    private String jwtToken;
     private String email;
+    private String username;
     private RoleType role;
-    private String token;
-
 }
