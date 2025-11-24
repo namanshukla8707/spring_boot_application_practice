@@ -16,6 +16,7 @@ import static com.code.free.utilities.globalEnums.RoleType.*;
 public class SecurityConfiguration {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final FilterChainAccessDeniedExpections filterChainAccessDeniedExpections;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -25,6 +26,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
                         .anyRequest().authenticated())
+                        .exceptionHandling(expection->expection.accessDeniedHandler(filterChainAccessDeniedExpections))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
