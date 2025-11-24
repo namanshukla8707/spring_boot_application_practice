@@ -21,6 +21,9 @@ public class GeminiUtils {
 
         String prompt = constantsReaderWrapper.getValueByKey(constants.getUsernameSuggestionConstantKey()) + username;
         List<String> suggestions = List.of(geminiConfig.generateContentResponse(prompt).text().split(","));
+        suggestions = suggestions.stream()
+                .map(name -> name.trim() + Math.abs(name.hashCode())%100)
+                .toList();
         return suggestions;
     }
 }
