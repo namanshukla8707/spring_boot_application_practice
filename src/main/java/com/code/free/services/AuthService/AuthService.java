@@ -55,8 +55,10 @@ public class AuthService {
         }
 
         user = userRepo.save(newUser);
+         String token = authUtil.generateAccessToken(user);
+        
 
-        return CustomResponse.success(new UserRegisterResponseDto(user.getId(), user.getUsername()),
+        return CustomResponse.success(new UserRegisterResponseDto(user.getUsername(),user.getEmail(),user.getRole(),token),
                 "User registered successfully", HttpStatus.CREATED);
     }
 
