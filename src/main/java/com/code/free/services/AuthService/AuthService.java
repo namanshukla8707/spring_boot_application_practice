@@ -11,6 +11,7 @@ import com.code.free.entities.user.UserEntity;
 import com.code.free.exceptions.DuplicateEmailException;
 import com.code.free.repositories.user.UserRepo;
 import com.code.free.requests.LoginRequestDto;
+import com.code.free.requests.SignUpRequestDto;
 import com.code.free.responses.CustomResponse;
 import com.code.free.responses.LoginResponseDto;
 import com.code.free.responses.UserRegisterResponseDto;
@@ -29,10 +30,10 @@ public class AuthService {
     private final Config config;
 
     public ApiResult<LoginResponseDto> login(LoginRequestDto request) {
-        String username = request.getUsername();
+        String identifier =  request.getIdentifier();
         String password = request.getPassword();
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                .authenticate(new UsernamePasswordAuthenticationToken(identifier, password));
 
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String token = authUtil.generateAccessToken(user);
@@ -40,7 +41,7 @@ public class AuthService {
         return CustomResponse.success(new LoginResponseDto(token, user.getId()), "Login Successful", HttpStatus.OK);
     }
 
-    public ApiResult<UserRegisterResponseDto> registerUser(LoginRequestDto request) {
+    public ApiResult<UserRegisterResponseDto> registerUser(SignUpRequestDto request) {
         UserEntity user = userRepo.findByEmail(request.getEmail()).orElse(null);
         if (user != null) {
             throw new DuplicateEmailException("Email is already in use");
