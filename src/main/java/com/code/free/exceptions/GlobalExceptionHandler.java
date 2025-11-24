@@ -1,4 +1,4 @@
-package com.code.free.utilities.exceptions;
+package com.code.free.exceptions;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.persistence.PersistenceException;
