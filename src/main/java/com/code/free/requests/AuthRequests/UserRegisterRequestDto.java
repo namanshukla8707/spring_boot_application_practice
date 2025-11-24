@@ -1,11 +1,11 @@
-package com.code.free.requests;
+package com.code.free.requests.AuthRequests;
 
 import com.code.free.utilities.globalEnums.RoleType;
 
 import lombok.Data;
 
 @Data
-public class SignUpRequestDto {
+public class UserRegisterRequestDto {
     private String username;
     private String password;
     private String email;
