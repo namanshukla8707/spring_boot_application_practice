@@ -31,7 +31,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
         Boolean isEmail = identifier.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-        UserEntity user;
+        UserEntity user = new UserEntity();
         if (isEmail) {
             user = userRepo.findByEmail(identifier).orElseThrow();
         } else {
