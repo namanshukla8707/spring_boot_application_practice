@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.code.free.configuration.Config;
 import com.code.free.entities.user.UserEntity;
+import com.code.free.exceptions.DuplicateEmailException;
 import com.code.free.repositories.user.UserRepo;
 import com.code.free.requests.LoginRequestDto;
 import com.code.free.responses.CustomResponse;
@@ -15,7 +16,6 @@ import com.code.free.responses.LoginResponseDto;
 import com.code.free.responses.UserRegisterResponseDto;
 import com.code.free.security.AuthUtil;
 import com.code.free.utilities.ApiResult;
-import com.code.free.utilities.exceptions.DuplicateEmailException;
 
 import lombok.RequiredArgsConstructor;
 
