@@ -3,6 +3,7 @@ package com.code.free.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.code.free.requests.LoginRequestDto;
+import com.code.free.requests.SignUpRequestDto;
 import com.code.free.responses.LoginResponseDto;
 import com.code.free.responses.UserRegisterResponseDto;
 import com.code.free.services.AuthService.AuthService;
@@ -28,7 +29,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ApiResult<UserRegisterResponseDto> registerUser(@RequestBody LoginRequestDto request) {
+    public ApiResult<UserRegisterResponseDto> registerUser(@RequestBody SignUpRequestDto request) {
         return authService.registerUser(request);
     }
 }
