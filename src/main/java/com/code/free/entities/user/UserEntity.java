@@ -60,6 +60,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "is_active",nullable = false)
+    @Builder.Default
+    private Boolean isActive=true;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> "ROLE_" + role.name());

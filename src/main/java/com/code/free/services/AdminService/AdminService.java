@@ -8,5 +8,7 @@ import com.code.free.utilities.ApiResult;
 public interface AdminService {
 
     ApiResult<List<UserView>> getUsers();
+
+    
     
 }

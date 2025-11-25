@@ -25,4 +25,9 @@ public class AdminController {
         return adminService.getUsers();
     }
 
+    // @PostMapping("/create-course")
+    // public ApiResult<Void> createCourse(){
+
+    // }
+
 }
