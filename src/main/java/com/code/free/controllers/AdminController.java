@@ -10,7 +10,6 @@ import com.code.free.utilities.ApiResult;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RequestMapping("/api/v1/admin")
