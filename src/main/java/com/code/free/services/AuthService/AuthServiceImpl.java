@@ -90,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         Integer otp = utils.generateOtp();
-        body = body.replace("{{OTP}}", String.valueOf(otp));
+        body = body.replace("{OTP}", String.valueOf(otp));
 
         utils.sendEmail(email, body, subject);
         return CustomResponse.success(email, "OTP sent successfully", HttpStatus.OK);
