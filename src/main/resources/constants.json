@@ -1,6 +1,6 @@
 {
     "usernameSuggestionPrompt":"Create only 2 suggestion for a username with the following rules that they must have number and have atleast 8 characters and they can have special character and be unique so that they don't get duplicated, and I want just 2 name only separated by ',' so that I can store them in a variable by calling API based on the provided username: ",
-    "otpEmailBody": "Your password reset OTP is: {{OTP}},",
+    "otpEmailBody": "Your password reset OTP is: {OTP} \n This OTP is valid for 5 minutes.",
     "otpEmailSubject": "Password Reset OTP",
     "emailRegex": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
 
