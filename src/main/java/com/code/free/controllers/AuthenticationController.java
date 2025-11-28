@@ -11,9 +11,13 @@ import com.code.free.utilities.ApiResult;
 
 import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -32,4 +36,12 @@ public class AuthenticationController {
     public ApiResult<UserRegisterResponseDto> registerUser(@RequestBody UserRegisterRequestDto request) {
         return authService.registerUser(request);
     }
+
+    @GetMapping("/send-otp")
+    public ApiResult<String> requestOtp(@RequestParam("email") String email) throws IOException {
+        return authService.sendOtpToEmail(email);
+    }
+
+    
+
 }
