@@ -1,7 +1,10 @@
 package com.code.free.utilities;
 
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,7 +48,11 @@ public class Utils {
     }
 
     public LocalDateTime getExpiryTime(Integer minutesFromNow) {
-        return LocalDateTime.now()
-                .plusMinutes(minutesFromNow != null ? minutesFromNow : constants.getDefaultExpiryMinutes());
+        Integer minutes = minutesFromNow != null
+                ? minutesFromNow
+                : constants.getDefaultExpiryMinutes();
+        return LocalDateTime.ofInstant(
+                Instant.now().plus(Duration.ofMinutes(minutes)),
+                ZoneOffset.UTC);
     }
 }
