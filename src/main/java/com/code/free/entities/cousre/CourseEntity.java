@@ -35,5 +35,8 @@ public class CourseEntity {
 
     @Column(name = "is_active",nullable = false)
     @Builder.Default
-    private Boolean isActive=true;
+    private Boolean isActive;
+
+    @Column(name = "discount")
+    private Integer discount;
 }
