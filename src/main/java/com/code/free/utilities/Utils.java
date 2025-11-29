@@ -1,6 +1,8 @@
 package com.code.free.utilities;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,15 +19,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Utils {
 
-
     private final JavaMailSender mailSender;
+    private final Constants constants;
 
-    public Integer generateOtp() { // to be correc
+    public Integer generateOtp() { // to be corrected
         Integer otp = 100000 + new SecureRandom().nextInt(900000);
         return otp;
     }
 
-    public void sendEmail(String email, String body,String subject) {
+    public void sendEmail(String email, String body, String subject) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(email);
@@ -37,5 +39,14 @@ public class Utils {
 
     public UserEntity getCurrentUser() {
         return (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public LocalDateTime getExpiryTime() {
+        return getExpiryTime(constants.getDefaultExpiryMinutes());
+    }
+
+    public LocalDateTime getExpiryTime(Integer minutesFromNow) {
+        return LocalDateTime.now()
+                .plusMinutes(minutesFromNow != null ? minutesFromNow : constants.getDefaultExpiryMinutes());
     }
 }

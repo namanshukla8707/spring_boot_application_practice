@@ -29,4 +29,6 @@ public class Constants {
 
     private String emailRegexKey = "emailRegex";
 
+    private Integer defaultExpiryMinutes=5;
+
 }
