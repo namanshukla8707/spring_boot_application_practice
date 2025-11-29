@@ -15,4 +15,8 @@ public interface AuthService {
     ApiResult<UserRegisterResponseDto> registerUser(UserRegisterRequestDto request);
     
     ApiResult<String> sendOtpToEmail(String email) throws IOException;
+
+    ApiResult<String> verifyOtp(String email,Integer otp) throws IOException;
+
+    ApiResult<String> resetPassword(String email, String password, String confirmPassword);
 }

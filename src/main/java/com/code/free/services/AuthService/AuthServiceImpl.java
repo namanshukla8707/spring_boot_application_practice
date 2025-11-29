@@ -104,4 +104,33 @@ public class AuthServiceImpl implements AuthService {
         return CustomResponse.success(email, "OTP sent successfully", HttpStatus.OK);
     }
 
+    public ApiResult<String> verifyOtp(String email, Integer otp) throws IOException {
+        if (email == null || otp == null) {
+            return CustomResponse.failure("Email and OTP must be provided", "OTP verification failed",
+                    HttpStatus.BAD_REQUEST);
+        }
+        String EMAIL_REGEX = constantsReaderWrapper.getValueByKey(constants.getEmailRegexKey());
+
+        if (!email.matches(EMAIL_REGEX)) {
+            throw new InvalidEmailException("Invalid email format");
+        }
+        ApiResult<String> result = tokenService.getTokenByEmailAndOtp(email, otp);
+        return result;
+    }
+
+    public ApiResult<String> resetPassword(String email, String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            return CustomResponse.failure("Passwords do not match", "Password reset failed", HttpStatus.BAD_REQUEST);
+        }
+
+        UserEntity user = userRepo.findByEmail(email).orElse(null);
+        if (user == null) {
+            throw new EmailNotFoundException("Email not found");
+        }
+
+        user.setPassword(config.passwordEncoder().encode(password));
+        userRepo.save(user);
+        return CustomResponse.success(email, "Password reset successful", HttpStatus.OK);
+    }
+
 }

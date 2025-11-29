@@ -2,6 +2,7 @@ package com.code.free.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.code.free.requests.AuthRequests.ForgetPasswordRequestDto;
 import com.code.free.requests.AuthRequests.LoginRequestDto;
 import com.code.free.requests.AuthRequests.UserRegisterRequestDto;
 import com.code.free.responses.AuthResponses.LoginResponseDto;
@@ -42,6 +43,14 @@ public class AuthenticationController {
         return authService.sendOtpToEmail(email);
     }
 
-    
+    @PostMapping("/verify-otp")
+    public ApiResult<String> verifyOtp(@RequestBody ForgetPasswordRequestDto request) throws IOException {
+        return authService.verifyOtp(request.getEmail(), request.getOtp());
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResult<String> resetPassword(@RequestBody ForgetPasswordRequestDto request) {
+        return authService.resetPassword(request.getEmail(), request.getPassword(), request.getConfirmPassword());
+    }
 
 }
