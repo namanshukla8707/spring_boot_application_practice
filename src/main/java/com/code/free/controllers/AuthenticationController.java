@@ -41,4 +41,7 @@ public class AuthenticationController {
     public ApiResult<String> requestOtp(@RequestParam("email") String email) throws IOException {
         return authService.sendOtpToEmail(email);
     }
+
+    
+
 }

@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final UserViewRepo userViewRepo;
     private final GeminiUtils geminiUtils;
-
+    
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
         Boolean isEmail = identifier.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");

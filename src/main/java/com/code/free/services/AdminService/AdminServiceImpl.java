@@ -23,4 +23,6 @@ public class AdminServiceImpl implements AdminService {
         String message = users.isEmpty() ? "No users found" : "Users fetched successfully";
         return CustomResponse.success(users, message, HttpStatus.OK);
     }
+
+    
 }
