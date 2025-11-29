@@ -6,4 +6,8 @@ import com.code.free.utilities.ApiResult;
 public interface TokenService {
 
     ApiResult<Boolean> createToken(TokenEntity tokenEntity);
+
+    ApiResult<String> getTokenByEmailAndOtp(String email, Integer otp);
+
+    ApiResult<Boolean> saveUpdatedToken(TokenEntity tokenEntity);
 }
