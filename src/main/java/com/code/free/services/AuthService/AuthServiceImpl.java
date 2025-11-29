@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.code.free.configuration.Config;
+import com.code.free.entities.token.TokenEntity;
 import com.code.free.entities.user.UserEntity;
 import com.code.free.exceptions.DuplicateEmailException;
 import com.code.free.exceptions.EmailNotFoundException;
@@ -21,6 +22,7 @@ import com.code.free.responses.CustomResponse;
 import com.code.free.responses.AuthResponses.LoginResponseDto;
 import com.code.free.responses.AuthResponses.UserRegisterResponseDto;
 import com.code.free.security.AuthUtil;
+import com.code.free.services.TokenService.TokenService;
 import com.code.free.utilities.ApiResult;
 import com.code.free.utilities.Constants;
 import com.code.free.utilities.ConstantsReaderWrapper;
@@ -39,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private final ConstantsReaderWrapper constantsReaderWrapper;
     private final Constants constants;
     private final Utils utils;
+    private final TokenService tokenService;
 
     public ApiResult<LoginResponseDto> login(LoginRequestDto request) {
         String identifier = request.getIdentifier();
@@ -91,7 +94,12 @@ public class AuthServiceImpl implements AuthService {
 
         Integer otp = utils.generateOtp();
         body = body.replace("{OTP}", String.valueOf(otp));
-
+        ApiResult<Boolean> tokenCreationResponse = tokenService
+                .createToken(new TokenEntity(null, email, otp, null, utils.getExpiryTime()));
+        if (tokenCreationResponse.getBody().getSuccess() == false) {
+            return CustomResponse.failure(email, "OTP cannot be sent due to service error",
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         utils.sendEmail(email, body, subject);
         return CustomResponse.success(email, "OTP sent successfully", HttpStatus.OK);
     }
