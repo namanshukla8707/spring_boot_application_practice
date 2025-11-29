@@ -10,4 +10,6 @@ public interface TokenService {
     ApiResult<String> getTokenByEmailAndOtp(String email, Integer otp);
 
     ApiResult<Boolean> saveUpdatedToken(TokenEntity tokenEntity);
+
+    ApiResult<Void> deleteAllTokenByEmail(String email);
 }
