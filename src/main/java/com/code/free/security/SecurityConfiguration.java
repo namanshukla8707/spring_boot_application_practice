@@ -25,7 +25,7 @@ public class SecurityConfiguration {
                         sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
-                        .requestMatchers("/api/v1/courses/**").hasRole(TEACHER.name())
+                        .requestMatchers("/api/v1/courses/**").hasAnyRole(TEACHER.name(),ADMIN.name())
                         .anyRequest().authenticated())
                         .exceptionHandling(expection->expection.accessDeniedHandler(filterChainAccessDeniedExpections))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
