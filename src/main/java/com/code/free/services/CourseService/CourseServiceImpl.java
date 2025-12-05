@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.code.free.entities.course.CourseEntity;
 import com.code.free.entities.video.VideoEntity;
@@ -13,7 +12,6 @@ import com.code.free.repositories.Course.CourseRepo;
 import com.code.free.repositories.Course.VideoRepo;
 import com.code.free.requests.CourseRequests.CourseRequestDto;
 import com.code.free.responses.CustomResponse;
-import com.code.free.services.CloudfareService.CloudfareService;
 import com.code.free.utilities.ApiResult;
 import com.code.free.utilities.Utils;
 
@@ -41,8 +39,9 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(course);
 
         Long courseId = course.getId();
-        if(request.getVideos() == null || request.getVideos().isEmpty()){
-            return CustomResponse.success(course.getTitle(), "Course created successfully without videos", HttpStatus.CREATED);
+        if (request.getVideos() == null || request.getVideos().isEmpty()) {
+            return CustomResponse.success(course.getTitle(), "Course created successfully without videos",
+                    HttpStatus.CREATED);
         }
         request.getVideos().forEach(video -> {
             try {
@@ -58,7 +57,7 @@ public class CourseServiceImpl implements CourseService {
                 videoRepository.save(videoEntity);
 
             } catch (IOException e) {
-                
+
                 throw new RuntimeException("Failed to upload video", e);
             }
         });
@@ -66,7 +65,9 @@ public class CourseServiceImpl implements CourseService {
         return CustomResponse.success(course.getTitle(), "Course created successfully", HttpStatus.CREATED);
     }
 
-    // public ApiResult<String> uploadCourseVideo(MultipartFile file) throws IOException {
-    //     return CustomResponse.success(null, cloudfareService.upload(file), HttpStatus.OK);
+    // public ApiResult<String> uploadCourseVideo(MultipartFile file) throws
+    // IOException {
+    // return CustomResponse.success(null, cloudfareService.upload(file),
+    // HttpStatus.OK);
     // }
 }
