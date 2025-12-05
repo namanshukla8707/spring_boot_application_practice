@@ -6,6 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CloudfareService {
 
-    public String upload(MultipartFile file) throws IOException;
+    public String upload(MultipartFile file,Long courseId,Long lectureNo) throws IOException;
     
 }
