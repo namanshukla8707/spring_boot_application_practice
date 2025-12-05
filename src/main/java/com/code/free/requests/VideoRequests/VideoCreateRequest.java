@@ -14,5 +14,5 @@ public class VideoCreateRequest {
     private String title;
     private String description;
     private Integer position;
-    private MultipartFile file;
+    private MultipartFile video;
 }

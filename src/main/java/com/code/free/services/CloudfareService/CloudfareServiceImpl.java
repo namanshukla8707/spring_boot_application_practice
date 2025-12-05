@@ -19,7 +19,7 @@ public class CloudfareServiceImpl implements CloudfareService {
     @Value("${cloudflare.r2.bucket.name}")
     private String bucketName;
 
-    public String upload(MultipartFile file, Long courseId, Long lectureNo) throws IOException {
+    public String upload(MultipartFile file, Long courseId, Integer lectureNo) throws IOException {
         String key = "course-" + courseId + "/" + "lesson_" + lectureNo;
         cloudfareUtils.getUploadFile(bucketName, file, key);
         return key;
