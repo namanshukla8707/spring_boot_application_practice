@@ -22,9 +22,9 @@ public class CloudfareServiceImpl implements CloudfareService {
     @Value("${cloudflare.r2.bucket.name}")
     private String bucketName;
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file,Long courseId,Long position) throws IOException {
+            String key = "course-" + courseId + "/lesson_" + position + "/" + file.getOriginalFilename();
 
-        String key = "" + UUID.randomUUID() + "_" + file.getOriginalFilename();
         cloudfareClient.r2Client().putObject(PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)

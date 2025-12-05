@@ -23,7 +23,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/create")
-    public ApiResult<String> createCourse(@RequestBody CourseRequestDto request) {
+    public ApiResult<String> createCourse(@RequestBody CourseRequestDto request) throws IOException {
         return courseService.createCourse(request);
 
     }
