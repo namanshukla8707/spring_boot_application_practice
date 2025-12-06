@@ -1,7 +1,9 @@
 package com.code.free.controllers;
 
+import java.io.IOException;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +21,7 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/create")
-    public ApiResult<String> createCourse(@RequestBody CourseRequestDto request) {
+    public ApiResult<String> createCourse(@ModelAttribute CourseRequestDto request) throws IOException {
         return courseService.createCourse(request);
 
     }

@@ -1,4 +1,4 @@
-package com.code.free.entities.cousre;
+package com.code.free.entities.course;
 
 import java.time.LocalDateTime;
 
