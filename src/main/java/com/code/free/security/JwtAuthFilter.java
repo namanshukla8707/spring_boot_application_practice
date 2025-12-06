@@ -35,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.info("Incoming Request: {}", request.getRequestURI());
 
             final String requestTokenHeader = request.getHeader("Authorization");
-            if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
+            if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ") || request.getRequestURI().startsWith("/api/v1/auth/")) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -45,7 +45,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserEntity user = userRepo.findByUsername(username).orElseThrow();
-                System.out.println("User from token: " + user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

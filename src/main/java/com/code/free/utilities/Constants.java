@@ -23,4 +23,12 @@ public class Constants {
     @Value("${gemini.ai.model.name}")
     private String geminiAIModelName;
 
+    private String otpEmailBodyKey = "otpEmailBody";
+
+    private String otpEmailSubjectKey = "otpEmailSubject";
+
+    private String emailRegexKey = "emailRegex";
+
+    private Integer defaultExpiryMinutes=5;
+
 }
