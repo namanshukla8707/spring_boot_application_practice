@@ -24,7 +24,7 @@ public class Utils {
     private final JavaMailSender mailSender;
     private final Constants constants;
 
-    public Integer generateOtp() { // to be corrected
+    public Integer generateOtp() {
         Integer otp = 100000 + new SecureRandom().nextInt(900000);
         return otp;
     }

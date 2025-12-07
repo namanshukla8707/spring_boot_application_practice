@@ -1,16 +1,18 @@
 package com.code.free.entities.video;
+
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.*;
-import lombok.*;    
+import lombok.*;
+
 @Entity
 @Table(name = "video", schema = "public")
-@Data 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoEntity { 
-   
+public class VideoEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +28,7 @@ public class VideoEntity {
 
     @Column(name = "position", nullable = false)
     private Integer position;
-    
+
     @Column(name = "description", nullable = true, length = 2000)
     private String description;
 
@@ -34,5 +36,8 @@ public class VideoEntity {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    
-} 
+    @Column(name = "is_active", nullable = false)
+    @Builder.Default
+    private Boolean isActive = true;
+
+}
