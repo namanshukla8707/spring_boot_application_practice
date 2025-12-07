@@ -5,10 +5,12 @@ import java.util.List;
 
 
 import com.code.free.requests.VideoRequests.VideoCreateRequest;
+import com.code.free.responses.VideoResponses.VideoResponseDto;
 import com.code.free.utilities.ApiResult;
 
 public interface VideoService {
 
      ApiResult<String> uploadVideoFile(List<VideoCreateRequest> videoRequest,Long courseId) throws IOException;
+     ApiResult<List<VideoResponseDto>> videosGlimpseForCourse(Long courseId);
 
 } 
