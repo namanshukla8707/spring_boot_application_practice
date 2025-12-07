@@ -16,4 +16,9 @@ public class CustomResponse {
         ApiResponse<T> response = new ApiResponse<T>(status, null, errorMessage, error);
         return new ApiResult<>(response);
     }
+    
+    public static <T> ApiResult<T> info(String infoMessage, String error,HttpStatus status){
+        ApiResponse<T> response = new ApiResponse<T>(status, null, infoMessage, error);
+        return new ApiResult<>(response);
+    }
 }

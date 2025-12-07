@@ -13,6 +13,8 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.code.free.exceptions.CourseExceptions.CourseNotFoundException;
+import com.code.free.exceptions.CourseExceptions.CourseNotPurchased;
 import com.code.free.responses.CustomResponse;
 import com.code.free.utilities.ApiResult;
 
@@ -80,5 +82,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidEmailException.class)
     public <T> ApiResult<T> handleInvalidEmailException(InvalidEmailException exception) {
         return CustomResponse.failure(exception.getMessage(), exception.getError(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CourseNotFoundException.class)
+    public <T> ApiResult<T> handleCourseNotFoundException(CourseNotFoundException exception) {
+        return CustomResponse.info(exception.getMessage(), exception.getError(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CourseNotPurchased.class)
+    public <T> ApiResult<T> handleCourseNotPurchasedException(CourseNotPurchased exception) {
+        return CustomResponse.info(exception.getMessage(), exception.getError(), HttpStatus.FORBIDDEN);
     }
 }
