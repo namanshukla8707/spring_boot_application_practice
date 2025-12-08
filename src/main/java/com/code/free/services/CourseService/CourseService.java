@@ -12,4 +12,5 @@ public interface CourseService {
     ApiResult<String> createCourse(CourseRequestDto request) throws IOException;
     ApiResult<String> addVideosToCourse(List<VideoCreateRequest> videoRequests, Long courseId) throws IOException;
     ApiResult<ViewCourseResponseDto> viewCourse(Long courseId);
+    ApiResult<String> purchaseCourse(Long courseId);
 }
