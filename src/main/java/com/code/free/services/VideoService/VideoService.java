@@ -12,5 +12,6 @@ public interface VideoService {
 
      ApiResult<String> uploadVideoFile(List<VideoCreateRequest> videoRequest,Long courseId) throws IOException;
      ApiResult<List<VideoResponseDto>> videosGlimpseForCourse(Long courseId);
+     ApiResult<List<VideoResponseDto>> videosForCourseWithPresignedUrl(Long courseId);
 
 } 

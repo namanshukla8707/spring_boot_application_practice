@@ -11,6 +11,7 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 @Configuration
 public class CloudfareR2Config {
@@ -24,8 +25,7 @@ public class CloudfareR2Config {
     @Value("${cloudflare.r2.endpoint}")
     private String endpoint;
 
-    AwsCredentialsProvider credentialsProvider = () -> 
-    AwsBasicCredentials.create(accessKey, secretKey);
+    AwsCredentialsProvider credentialsProvider = () -> AwsBasicCredentials.create(accessKey, secretKey);
 
     @Bean
     public S3Client r2Client() {
@@ -37,6 +37,22 @@ public class CloudfareR2Config {
                 .serviceConfiguration(
                         S3Configuration.builder()
                                 .pathStyleAccessEnabled(false)
+                                .chunkedEncodingEnabled(true)
+                                .build())
+                .build();
+    }
+
+    @Bean
+    public S3Presigner r2Presigner() {
+        return S3Presigner.builder()
+                .credentialsProvider(
+                        credentialsProvider)
+                .region(Region.of("auto"))
+                .endpointOverride(URI.create(endpoint))
+                .serviceConfiguration(
+                        S3Configuration.builder()
+                                .pathStyleAccessEnabled(true)
+                                .checksumValidationEnabled(false)
                                 .chunkedEncodingEnabled(true)
                                 .build())
                 .build();

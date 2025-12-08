@@ -24,4 +24,8 @@ public class CloudfareServiceImpl implements CloudfareService {
         cloudfareUtils.getUploadFile(bucketName, file, key);
         return key;
     }
+
+    public String getPresignedUrl(String key) {
+        return cloudfareUtils.getPresignedUrl(bucketName, key);
+    }
 }

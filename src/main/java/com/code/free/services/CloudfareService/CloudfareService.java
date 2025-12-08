@@ -7,5 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CloudfareService {
 
     public String upload(MultipartFile file,Long courseId,Integer lectureNo) throws IOException;
+    public String getPresignedUrl(String key);
     
 }
